@@ -1,0 +1,3 @@
+<?php 
+  deleteCheckComments($_POST);
+?>
