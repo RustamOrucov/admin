@@ -3,7 +3,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['delete_selected'])) {
         if (isset($_POST['check_id']) && is_array($_POST['check_id'])) {
             foreach ($_POST['check_id'] as $selectedId) {
-                
+                 
             }
         }
     }
