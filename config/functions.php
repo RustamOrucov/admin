@@ -242,7 +242,9 @@ function storeUser($post){
             $newFileName = $date . "_" . $userId . "." . $fileExtension;
             $targetFile = $targetDir . $newFileName;
             (strlen($fileExtension)>0)?$post['photo']=$newFileName :$post['photo']=null;
-            
+            if (move_uploaded_file($_FILES["photo"]["tmp_name"], $targetFile)) {
+               
+            }
             
             if (!file_exists($targetDir)) {
                 mkdir($targetDir); 
@@ -414,12 +416,14 @@ function getComments(){
 //            }
 //     }
 // }
-function updateUserComment($user_id, $post){
+function updateUserComment( $post){
     global $db;
+   $pid=$post['id'];
 
+    // print_r($post['id']);die;
 //    print_r($user_id);die;
 
-
+    
     if(isset($post['update_comment'])){
       
         if(empty($post['update_comment'])){
@@ -434,16 +438,17 @@ function updateUserComment($user_id, $post){
         }
         
         $sqlkeys = implode(', ', $sqlkeys);
+        // print_r($sqlkeys);die;
+        // $post['id'] = $post['id'];
+        
 
-        $post['id'] = $user_id;
-
-        $sql = "UPDATE comments SET " . $sqlkeys . " WHERE user_id = :id";
+        $sql = "UPDATE comments SET " . $sqlkeys . " WHERE id = :id";
         $data = $db->prepare($sql);
 
         $row = $data->execute($post);
 
         if($row){
-            header('Location: index.php?page=comment&action=all&id='.$user_id.'&operation=true'); 
+            header('Location: index.php?page=comment&action=all&id='.$pid.'&operation=true'); 
             die;
         }
     }
@@ -489,3 +494,26 @@ function deleteCheckComments($post){
         die;
     }
 }
+
+function profilPhoto(){
+    global $db;
+
+   
+    $sql='Select photo FROM users where id=:id';
+
+     $checkData=[
+        ':id'=>$_SESSION['user']['id'],
+     ];
+
+     $data=$db->prepare($sql);
+     $data->execute($checkData);
+     $row=$data->fetch(PDO::FETCH_ASSOC);
+ 
+     if(count($row)>0){
+      $path='../admin/user_img/'.$row['photo'];
+
+
+        return $path;
+     }
+}
+?>

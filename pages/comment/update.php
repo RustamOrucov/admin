@@ -1,8 +1,9 @@
 <?php
+   
 if(count($_POST)>0){
 
     if(strlen(trim($_POST['comment']))>0){
-        updateUserComment($_SESSION['user']['id'],$_POST);
+        updateUserComment($_POST);
     }
 }
 // print_r($_GET);
@@ -23,7 +24,7 @@ if(count($_POST)>0){
 <div class="card-body">
 <div class="form-group">
 <label for="comment">Comment</label>
-<!-- <input type="hidden" name="id" value="<?=$_GET['id'];?>"> -->
+<input type="hidden" name="id" value="<?=$_GET['id'];?>">
 <textarea name="comment" class="form-control" id="comment"  ><?=$_GET['comment'] ?></textarea>
 <!-- <input type="text" class="form-control" id="comment" name="text" placeholder="Enter text" value=""> -->
 </div>

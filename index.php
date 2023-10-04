@@ -1,6 +1,10 @@
 <?php   
 
 require_once './config/functions.php';
+if(!(isset($_SESSION['user']['id']))){
+  header("Location:./login.php");
+  die;
+}
 
 $getData=$_GET;
 $baseFolder='./pages/';
